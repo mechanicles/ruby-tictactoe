@@ -37,30 +37,5 @@ class Board
     puts ""
   end
 
-  def check_winner
-    x_count = 0
-    o_count = 0
-    WINNING_PLACES.each do |winning_place|
-      winning_place.each do |index|
-        if self.positions_with_values["#{index}"] == "X"
-          x_count = x_count + 1
-        elsif self.positions_with_values["#{index}"] == "O"
-          o_count = o_count + 1
-        end
-      end
-      if x_count == 3 or o_count == 3
-        break
-      else
-        x_count = 0
-        o_count = 0
-      end
-    end
-    if x_count == 3
-      return "X won"
-    elsif o_count == 3
-      return "O won"
-    end
-    return "No One"
-  end
 end
 

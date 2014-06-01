@@ -11,28 +11,33 @@ class Player
     @mark = mark
   end
 
-  def move(board, position) # X player move
+  def move(board, position, engine) # X player move
     board.positions_with_values[position] = self.mark
     board.display
-    winner = board.check_winner
+    winner = engine.check_winner(board)
     if winner != "No One"
-      display_winner
+      engine.display_winner(self.mark)
     end
   end
 
-  def best_move(board) # Robot (O Player) best move, include artificial intelligence
+  def best_move(board, engine) # Robot's (O Player) best move, includes artificial intelligence
     puts ""
     puts "Robot (O player) is taking turn..."
-    flag = true
+
     sleep 2
+
     position = check_priority(board)
+
     board.positions_with_values["#{position}"] = "O"
-    winner = board.check_winner
+
+    winner = engine.check_winner(board)
+
     if winner != "No One"
       puts ""
       board.display
-      display_winner
+      engine.display_winner(self.mark)
     end
+
     puts ""
     board.display
   end
@@ -79,16 +84,6 @@ class Player
       end
     end
     return nil
-  end
-
-  def display_winner
-    puts "\n*************| Result |*************"
-    if self.mark == "X"
-      puts "Congratulation!!!, you won the game\n\n"
-    else
-      puts "Sorry, you lost the game :( \n\n"
-    end
-    exit
   end
 
 end

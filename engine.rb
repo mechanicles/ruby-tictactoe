@@ -8,8 +8,8 @@
 # i.e. >> ruby engine.rb
 
 
-require "board"
-require "player"
+require_relative "./board"
+require_relative "./player"
 
 class Engine
 
@@ -19,7 +19,7 @@ class Engine
 ************************************************************************
                 Powerful Tic-Tac-Toe game in Ruby Language
                   Author: [santosh.wadghule@gmail.com]
-                Copyright: (c) 2011-2012 Santosh Wadghule
+                Copyright: (c) 2011-2014 Santosh Wadghule
 ************************************************************************
 
 Doc
@@ -75,16 +75,50 @@ Doc
         else
           flag = false
         end
-
       end
-      
-      current_player.move(board, position)
 
+      current_player.move(board, position, self)
     else
-      current_player.best_move(board)
+      current_player.best_move(board, self)
     end
   end
-  
+
+  def check_winner(board)
+    x_count = 0
+    o_count = 0
+    Board::WINNING_PLACES.each do |winning_place|
+      winning_place.each do |index|
+        if board.positions_with_values["#{index}"] == "X"
+          x_count = x_count + 1
+        elsif board.positions_with_values["#{index}"] == "O"
+          o_count = o_count + 1
+        end
+      end
+      if x_count == 3 or o_count == 3
+        break
+      else
+        x_count = 0
+        o_count = 0
+      end
+    end
+    if x_count == 3
+      return "X won"
+    elsif o_count == 3
+      return "O won"
+    end
+    return "No One"
+  end
+
+  def display_winner(mark)
+    puts "\n*************| Result |*************"
+    if mark == "X"
+      puts "Congratulation!!!, you won the game\n\n"
+    else
+      puts "Sorry, you lost the game :( \n\n"
+    end
+    exit
+  end
+
 end
 
 engine = Engine.new
@@ -96,5 +130,5 @@ board    = Board.new
 board.display_positions
 
 engine.start(x_player, o_player, board) # this will start game and
-                                        #automatically terminate the game if player wins the game
-engine.stop # if match draw
+                                        # automatically terminate the game if player wins the game
+engine.stop # if match is draw
