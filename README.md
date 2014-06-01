@@ -1,3 +1,3 @@
-TicTacToe in Ruby
+Tic Tac Toe in Ruby
 =================
-Object oriented TicTacToe game in Ruby language with artificial intelligence.
+Object oriented Tic-Tac-Toe game in Ruby language with artificial intelligence.
